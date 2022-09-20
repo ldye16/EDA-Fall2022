@@ -61,8 +61,8 @@ Visualize count data for categorical variables.
 ggplot(USGS.flow.data, aes(x = discharge.mean.approval)) +
   geom_bar()
 
-
-
+ggplot(na.omit(USGS.flow.data), aes(x = discharge.mean.approval)) +
+  geom_bar()
 ```
 
 ### Histogram (function: geom_histogram)
@@ -100,7 +100,7 @@ An alternate to a histogram is a frequency polygon graph (distributions of value
 #
 ggplot(USGS.flow.data) +
   geom_freqpoly(aes(x = gage.height.mean), bins = 50) +
-  geom_freqpoly(aes(x = gage.height.min), bins = 50, color = "darkgray") +
+  geom_freqpoly(aes(x = gage.height.min), bins = 50, color = "red") +
   geom_freqpoly(aes(x = gage.height.max), bins = 50,  lty = 2) +
   scale_x_continuous(limits = c(0, 10))
 
@@ -158,16 +158,16 @@ Question: under what circumstances would it be beneficial to use each of these g
 ## Ending discussion
 
 What did you learn about the USGS discharge dataset today? What separate insights did the different graph types offer?
-> Answer: 
+> Answer: I learned about the various ways you can portray a dataset and some of the reasons you may choose one visual over another. 
 
 
 How can multiple options for data exploration inform our understanding of our data?
 
-> Answer: 
+> Answer: Each visualization will allow you to learn something new about the data. For example, when we potted the data with datetime, we revealed a sizable gap in the data. 
 
 
 Do you see any patterns in the USGS data for the Eno River? What might be responsible for those patterns and/or relationships?
 
-> Answer: 
+> Answer: We saw that when you plot height with discharge there is a slowing down of the curve. This is do to a widening of the stream the higher up the stream bank you go. This means that, at high volumes, an increase in discharge may not increase the height as much as if the same discharge increased at a lower stream height. 
 
 
