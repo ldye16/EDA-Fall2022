@@ -144,7 +144,7 @@ class(USGS.flow.data$datetime)
 class(USGS.flow.data$discharge.mean)
 class(USGS.flow.data$gage.height.mean)
 
-summary(USGS.flow.data)  #could point to column only with $
+summary(USGS.flow.data$discharge.max)  #could point to column only with $
 
 ```
 
