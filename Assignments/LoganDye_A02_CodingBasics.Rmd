@@ -52,7 +52,7 @@ median <- median(x)
 #3. 
 
 #I was not sure what exactly to put here so I simply asked (mean>median), which came back FALSE. This checks out since median and mean are equal to each other. 
-(mean>median)
+isTRUE(mean>median)
 
 ```
 
@@ -75,11 +75,9 @@ vector3 <- c(TRUE,TRUE,FALSE,FALSE) #logical vector
 dataframe1 <- data.frame(vector1,vector2,vector3)
 TestResults <- dataframe1
 
-colnames(TestResults)
-Names <- vector1
-colnames(TestResults)
-
 names(TestResults) <- c("Names","Grades","Passed")
+
+colnames(TestResults)
 ```
 
 9.  QUESTION: How is this data frame different from a matrix?
