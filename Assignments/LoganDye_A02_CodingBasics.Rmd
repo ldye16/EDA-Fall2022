@@ -90,8 +90,17 @@ colnames(TestResults)
 
 ```{r}
 
+#10
+PassOrFail <- function(g) {
+  test <- ifelse(g >= 50,TRUE,FALSE)
+  print(test)
+}
+
+#11
+PassOrFail(TestResults$Grades)
+
 ```
 
 12. QUESTION: Which option of `if` and `else` vs. `ifelse` worked? Why?
 
-> Answer:
+> Answer: ifelse worked. It worked because if and else options are for individual variables but cannot run an entire vector at once time. 
