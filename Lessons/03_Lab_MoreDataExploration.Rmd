@@ -123,6 +123,8 @@ TenDayForcast <- data.frame(High_Temps_F,Low_Temps_F,High_Temps_C,Low_Temps_C)
 Use the common functions `summary` and `sd` to obtain basic data summaries of the ten-day forecast. How would you call these functions differently for the entire data frame vs. a single column? Attempt to demonstrate both options below.
 
 ```{r DataExercise-1d}
+summary(TenDayForcast)
+summary(High_Temps_C)
 
 ```
 
