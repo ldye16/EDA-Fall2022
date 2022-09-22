@@ -36,14 +36,22 @@ This exercise accompanies the lessons in Environmental Data Analytics on coding 
 #I am making the sequence using the format (from,to,by)
 seq(1,100,4) 
 
+#[1]  1  5  9 13 17 21 25 29 33 37 41 45 49 53 57 61 65 69 73 77 81 85 89 93 97
+
 #I am assigning the sequence to the value "x"
 x <- seq(1,100,4)
+
 
 #2. 
 
 #Here I am finding the mean and median of the sequence by finding the mean and median of x. Which I have assigned to represent the sequence. 
 mean(x)
+
+#[1] 49
+
 median(x)
+
+#[1] 49
 
 #Here I am assigning the mean and median to the words mean and median. 
 mean <- mean(x)
@@ -51,8 +59,11 @@ median <- median(x)
 
 #3. 
 
-#I was not sure what exactly to put here so I simply asked (mean>median), which came back FALSE. This checks out since median and mean are equal to each other. 
+#I was not sure what exactly to put here so I simply asked isTRUE(mean>median), which came back FALSE. This checks out since median and mean are equal to each other. 
+
 isTRUE(mean>median)
+
+#[1] FALSE
 
 ```
 
@@ -98,6 +109,8 @@ PassOrFail <- function(g) {
 
 #11
 PassOrFail(TestResults$Grades)
+
+# [1]  TRUE  TRUE FALSE FALSE
 
 ```
 
