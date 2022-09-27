@@ -17,7 +17,7 @@ editor_options:
 
 ```{r, message = FALSE}
 getwd()
-#library(plyr)
+library(plyr)
 library(tidyverse)
 library(lubridate)
 NTL.phys.data.PeterPaul <- read.csv("./Data/Processed/NTL-LTER_Lake_ChemistryPhysics_PeterPaul_Processed.csv")
@@ -68,7 +68,12 @@ NTL.phys.data.PeterPaul.subset <- select(NTL.phys.data.PeterPaul,
 NTL.nutrient.data.PeterPaul.subset <- select(NTL.nutrient.data.PeterPaul, 
                                              lakename, year4, daynum, month, sampledate, depth:po4)
 
-# write a more succinct line of code to subset the nutrient dataset. 
+# write a more succinct line of code to subset the nutrient dataset.
+NTL.nutrient.data.PeterPaul.subset2 <- select(NTL.nutrient.data.PeterPaul, 
+                                              lakename:sampledate, depth:po4)
+
+colnames(NTL.nutrient.data.PeterPaul.subset)
+colnames(NTL.nutrient.data.PeterPaul.subset2)
 
 ```
 
@@ -93,6 +98,7 @@ NTL.nutrient.data.PeterPaul.gathered <- pivot_longer(NTL.nutrient.data.PeterPaul
 
 NTL.nutrient.data.PeterPaul.gathered <- subset(NTL.nutrient.data.PeterPaul.gathered, !is.na(concentration))
 count(NTL.nutrient.data.PeterPaul.gathered, nutrient)
+count(NTL.nutrient.data.PeterPaul.gathered$nu, nutrient)
 
 write.csv(NTL.nutrient.data.PeterPaul.gathered, row.names = FALSE, 
           file = "./Data/Processed/NTL-LTER_Lake_Nutrients_PeterPaulGathered_Processed.csv")
