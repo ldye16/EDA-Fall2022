@@ -63,24 +63,24 @@ vignette("dplyr")
 Filtering allows us to choose certain rows (observations) in our dataset.
 
 Here are the relevant commands used in the `filter` function. Add some notes to designate what these commands mean. 
-`==`
-`!=`
-`<`
-`<=`
-`>`
-`>=`
-`&`
-`|`
+`==` #when you want to compare your value to another value 
+`!=` check in variables are different 
+`<`  Check for values less than specific number 
+`<=` less than equal too
+`>`  Greater than
+`>=` Greater than equal too
+`&`  If you have multiples conditions to check you use & to tell if both are true
+`|`  this slath to tell if one or the other is true. 
 
 ```{r}
 class(NTL.phys.data$lakeid)
 class(NTL.phys.data$depth)
 
 # matrix filtering
-NTL.phys.data.surface1 <- NTL.phys.data[NTL.phys.data$depth == 0,]
+NTL.phys.data.surface1 <- NTL.phys.data[NTL.phys.data$depth == 0,] #this code is filtering only the rows that have the element 0 on column depth
 
 # dplyr filtering
-NTL.phys.data.surface2 <- filter(NTL.phys.data, depth == 0)
+NTL.phys.data.surface2 <- filter(NTL.phys.data, depth == 0) #filtering original data. We want column depth to be equal to 0
 NTL.phys.data.surface3 <- filter(NTL.phys.data, depth < 0.25)
 
 # Did the methods arrive at the same result?
@@ -93,17 +93,17 @@ dim(NTL.phys.data.surface3)
 
 # Choose multiple conditions to filter
 summary(NTL.phys.data$lakename)
-NTL.phys.data.PeterPaul1 <- filter(NTL.phys.data, lakename == "Paul Lake" | lakename == "Peter Lake")
+NTL.phys.data.PeterPaul1 <- filter(NTL.phys.data, lakename == "Paul Lake" | lakename == "Peter Lake") # use the "or" operation
 NTL.phys.data.PeterPaul2 <- filter(NTL.phys.data, lakename != "Central Long Lake" & 
                                      lakename != "Crampton Lake" & lakename != "East Long Lake" &
                                      lakename != "Hummingbird Lake" & lakename != "Tuesday Lake" &
                                      lakename != "Ward Lake" & lakename != "West Long Lake")
-NTL.phys.data.PeterPaul3 <- filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake"))
+NTL.phys.data.PeterPaul3 <- filter(NTL.phys.data, lakename %in% c("Paul Lake", "Peter Lake")) #best method for when you need to select based on more than just two elements. 
 
 # Choose a range of conditions of a numeric or integer variable
 summary(NTL.phys.data$daynum)
 NTL.phys.data.JunethruOctober1 <- filter(NTL.phys.data, daynum > 151 & daynum < 305)
-NTL.phys.data.JunethruOctober2 <- filter(NTL.phys.data, daynum > 151, daynum < 305)
+NTL.phys.data.JunethruOctober2 <- filter(NTL.phys.data, daynum > 151, daynum < 305) #comma is interpreted as a cobination of both
 NTL.phys.data.JunethruOctober3 <- filter(NTL.phys.data, daynum >= 152 & daynum <= 304)
 NTL.phys.data.JunethruOctober4 <- filter(NTL.phys.data, daynum %in% c(152:304))
 
@@ -140,7 +140,7 @@ NTL.phys.data.depth.descending <- arrange(NTL.phys.data, desc(depth))
 Selecting allows us to choose certain columns (variables) in our dataset.
 
 ```{r}
-NTL.phys.data.temps <- select(NTL.phys.data, lakename, sampledate:temperature_C)
+NTL.phys.data.temps <- select(NTL.phys.data, lakename, sampledate:temperature_C) #I am interested in temperature and want the columns that relate to temperature. These are lakename, sampledate, depth, and temperature_C. Because sampledate, depth, and temperature are all next to each other in the data I can put the first column name, then ":", then the last column name.  
 
 ```
 ### Mutate
@@ -162,11 +162,11 @@ A package that makes coercing date much easier is `lubridate`. A guide to the pa
 NTL.phys.data.PeterPaul1 <- mutate(NTL.phys.data.PeterPaul1, month = month(sampledate)) 
 
 # reorder columns to put month with the rest of the date variables
-NTL.phys.data.PeterPaul1 <- select(NTL.phys.data.PeterPaul1, lakeid:daynum, month, sampledate:comments)
+NTL.phys.data.PeterPaul1 <- select(NTL.phys.data.PeterPaul1, lakeid:daynum, month, sampledate:comments) #I want month right after "daynum". 
 
 # find out the start and end dates of the dataset
-interval(NTL.phys.data.PeterPaul1$sampledate[1], NTL.phys.data.PeterPaul1$sampledate[21613])
-interval(first(NTL.phys.data.PeterPaul1$sampledate), last(NTL.phys.data.PeterPaul1$sampledate))
+interval(NTL.phys.data.PeterPaul1$sampledate[1], NTL.phys.data.PeterPaul1$sampledate[21613]) 
+interval(first(NTL.phys.data.PeterPaul1$sampledate), last(NTL.phys.data.PeterPaul1$sampledate)) #this is a much better way of completing this goal. 
 ```
 
 
