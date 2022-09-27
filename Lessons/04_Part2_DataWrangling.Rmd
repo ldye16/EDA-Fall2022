@@ -157,7 +157,7 @@ However, there are 20 months in this dataset, so importing all these files indiv
 
 ```{r}
 LitterFiles = list.files(path = "./Data/Raw/NIWO_Litter/", pattern="*.csv", full.names=TRUE)
-LitterFiles
+LitterFiles #start by specifying a path to where are the files you want to bind are. Then use patters to speficy what the the files you want to read are. You want to use the full names are of the files. 
 
 Litter <- LitterFiles %>%
   plyr::ldply(read.csv)
