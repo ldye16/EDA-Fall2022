@@ -92,7 +92,8 @@ print(O3plot)
 
 # Fix this code
 O3plot2 <- ggplot(EPAair) +
-  geom_point(aes(x = Date, y = Ozone, color = "blue"))
+  #geom_point(aes(x = Date, y = Ozone, color = "blue")) Must run color outside the aes(). Within aes will add a layer and legend. 
+  geom_point(aes(x = Date, y = Ozone), color = "blue")
 print(O3plot2)
 
 # Add additional variables
