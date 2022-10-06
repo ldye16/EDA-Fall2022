@@ -166,4 +166,4 @@ dim(AllCommonSites_Summary)
 
 14. Why did we use the function `drop_na` rather than `na.omit`?
 
-> Answer: 
+> Answer: We are using the "drop_na" function because we only want to remove rows with NA in certain columns of the dataset (MeanAQI_PM2.5 and MeanAQI_O3), not from the entire dataset. "na.omit" always condiders all columns. 
