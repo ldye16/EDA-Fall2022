@@ -43,7 +43,7 @@ getwd()
 library(tidyverse)
 options(scipen = 4)
 
-PeterPaul.chem.nutrients <- read.csv("./Data_2022sp/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv", stringsAsFactors = TRUE)
+PeterPaul.chem.nutrients <- read.csv("./Data/Processed/NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv", stringsAsFactors = TRUE)
 
 # Set theme
 mytheme <- theme_classic(base_size = 14) +
@@ -73,6 +73,7 @@ For the NTL-LTER dataset, can we predict irradiance (light level) from depth?
 
 ```{r}
 irradiance.regression <- lm(PeterPaul.chem.nutrients$irradianceWater ~ PeterPaul.chem.nutrients$depth)
+#dependent variable ~ independent variable
 
 # another way to format the lm() function
 irradiance.regression <- lm(data = PeterPaul.chem.nutrients, irradianceWater ~ depth)
@@ -170,7 +171,7 @@ par(mfrow = c(1,1))
 We can also make exploratory plots of several continuous data points to determine possible relationships, as well as covariance among explanatory variables. 
 
 ```{r, fig.height = 3, fig.width = 4}
-#install.packages("corrplot")
+install.packages("corrplot")
 library(corrplot)
 PeterPaulnutrients <- 
   PeterPaul.chem.nutrients %>%
