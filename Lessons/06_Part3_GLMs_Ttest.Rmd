@@ -99,13 +99,15 @@ Are Ozone levels different between 2018 and 2019?
 ggplot(EPAair, aes(x = Ozone, color = as.factor(Year))) +
   geom_freqpoly()
 
-#Format as a t-test
+#Format as a t-test 
+#Question: Is there a difference in Ozone between 2018 and 2019?
 #EPAair$Ozone will be our continuous dependent variable
 #EPAair$Year will be our categorical variable with two levels (2018 and 2019)
 O3.twosample <- t.test(EPAair$Ozone ~ EPAair$Year)
 O3.twosample
 
 # Format as a GLM
+# Question: Is year a predictor of Ozone level?
 O3.twosample2 <- lm(EPAair$Ozone ~ EPAair$Year)
 summary(O3.twosample2)
 
