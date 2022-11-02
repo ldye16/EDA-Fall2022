@@ -77,10 +77,10 @@ GaringerOzone1 <- select(GaringerOzone, Date, Daily.Max.8.hour.Ozone.Concentrati
 
 # 5
 Days <- as.data.frame(seq(as.Date("2010-01-01"), as.Date("2019-12-31"), "days"))
-Days$`seq(as.Date("2010-01-01"), as.Date("2019-12-31"), "days")` <- Days
+colnames(Days) <- c("Date")
 
 # 6
-
+GaringerOzone <- left_join(Days, GaringerOzone1, by = c("Date"))
 
 ```
 
