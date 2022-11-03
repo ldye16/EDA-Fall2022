@@ -113,7 +113,7 @@ Study question: Have ozone concentrations changed over the 2010s at this station
 
 GaringerOzone_Clean <- 
   GaringerOzone %>% 
-  mutate( Daily.Max.Clean = zoo::na.approx(Daily.Max.8.hour.Ozone.Concentration) )
+  Daily.Max.Clean = zoo::na.approx(Daily.Max.8.hour.Ozone.Concentration)
 
 ```
 
