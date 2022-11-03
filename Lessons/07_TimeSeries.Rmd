@@ -8,6 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
+
 ## Objectives
 1. Discuss the purpose and application of time series analysis for environmental data
 2. Explore the components of times series: trend, seasonal, random
@@ -29,6 +30,9 @@ library(zoo)
 library(Kendall)
 #install.packages("tseries")
 library(tseries)
+library(formatR)
+
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=45), tidy=TRUE)
 
 # Set theme
 mytheme <- theme_classic(base_size = 14) +
