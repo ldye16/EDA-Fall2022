@@ -37,6 +37,8 @@ library(lubridate)
 library(zoo)
 library(trend)
 
+knitr::opts_chunk$set(tidy.opts=list(width.cutoff=45), tidy=TRUE)
+
 mytheme <- theme_classic(base_size = 14) +
   theme(axis.text = element_text(color = "red"), 
         legend.position = "bottom")
