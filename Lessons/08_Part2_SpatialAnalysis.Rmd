@@ -128,7 +128,7 @@ colnames(NCHUC8_sf)
 st_crs(NCHUC8_sf)
 
 #Examine some records
-head(huc8_sf)
+head(NCHUC8_sf)
 
 #View the data as a map, colored by the acreage in each
 
@@ -149,8 +149,8 @@ upperneuse_sf <- st_read("./Data/Spatial/NCHUC8.shp") %>%
 
 #Create a map
 
-mapview(NCHUC8_sf, col.regions = "orange") + 
-  mapview(upperneuse_sf, col.regions = "purple")
+mapview(upperneuse_sf, col.regions = "purple") + 
+  mapview(NCHUC8_sf, col.regions = "orange")
 
 
 ```

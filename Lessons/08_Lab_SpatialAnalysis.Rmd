@@ -81,10 +81,11 @@ mapView(counties_sf, zcol = "AWATER")
 ```{r read HUCs shapefile}
 #Read the shapefile into an sf dataframe named "huc8_sf"
 
-
+huc8_sf<- st_read('./Data/Spatial/NCHUC8.shp')
 
 #View the data as a map, colored by the acreage in each
 
+mapview(NCHUC8_sf, zcol = "ACRES" )
 
 ```
 
@@ -95,10 +96,13 @@ mapView(counties_sf, zcol = "AWATER")
 ```{r Select the Upper Neuse HUC 8}
 #Read the shapefile into an sf dataframe
 
-
+upperneuse_sf <- st_read("./Data/Spatial/NCHUC8.shp") %>%
+  filter(SUBBASIN == "Upper Neuse")
 
 #Create a map
 
+mapview(NCHUC8_sf, col.regions = "orange") + 
+  mapview(upperneuse_sf, col.regions = "purple")
 
 ```
 
@@ -115,17 +119,24 @@ The URL '<https://raw.githubusercontent.com/ENV859/EnviroAtlasData/main/Wind_Ene
 ```{r}
 #Compute HUC8 wind energy
 
-
+HUC8_wind_sf <- 
+  read.csv("https://raw.githubusercontent.com/ENV859/EnviroAtlasData/main/Wind_Energy.csv", colClasses = c("HUC_12" = "factor")) %>%
+  mutate(HUC_8 = substr(HUC_12, 1,8)) %>% 
+  group_by(HUC_8) %>%
+  summarise(kWhkm2day = sum(kWhkm2day))
 
 
 #Join to HUC_8 features
 
-
+huc8_sf_wind <- merge(x = huc8_sf,
+                      y = HUC8_wind_sf,
+                      by.x = "HUC_8",
+                      by.y = "HUC_8")
 
 
 #View the outputs
 
-
+mapview(huc8_sf_wind, zcol = "kWhkm2day")
 
 ```
 
@@ -135,15 +146,19 @@ Aggregate the HUC_8 data on the `DWQ_Basin` attribute, computing the sum of the 
 ```{r Aggregate the HUC data on an attribute, saving as huc2_sf}
 #List the unique values in the DWQ_Basin field
 
-
+unique(huc8_sf_wind$DWQ_Basin)
 
 #Summarize on DWQ Basin value
 
-
+DWQ_Basin_Area <-huc8_sf_wind %>%
+  group_by(DWQ_Basin) %>% 
+  summarise(ACRES = sum(ACRES),
+            SQ_MILES = sum(SQ_MILES)) 
+  
 
 #Map the data
 
-
+mapview(DWQ_Basin_Area, zcol = "ACRES")
 ```
 
 ## 3.2 Transforming coordinate reference systems of datasets
