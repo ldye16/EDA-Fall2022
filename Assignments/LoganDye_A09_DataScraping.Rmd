@@ -103,10 +103,8 @@ LWSP_df <- data.frame(
   "pwsid" = pwsid,
   "ownership" = ownership,
   "max.withdrawals.mgd" = as.numeric(max.withdrawals.mgd)
-)
-
-LWSP_df <- LWSP_df %>%
-  mutate(Month = c("Jan", "May", "Sep", "Feb", "June", "Oct", "Mar", "Jul", "Nov", "Apr", "Aug", "Dec"),
+) %>%
+   mutate(Month = c("Jan", "May", "Sep", "Feb", "June", "Oct", "Mar", "Jul", "Nov", "Apr", "Aug", "Dec"),
          Year = rep(2021),
          Date = my(paste(Month,"-",Year)))
 
@@ -117,7 +115,7 @@ LWSP_df <- LWSP_df %>%
 ggplot(LWSP_df, aes(x = Date, y = max.withdrawals.mgd)) + 
   geom_line() +
   xlab("2021") +
-  ylab("Maximum Withdrawals (MGD)")
+  ylab("Maximum Daily Withdrawals (MGD)")
 
 
 ```
@@ -128,6 +126,40 @@ ggplot(LWSP_df, aes(x = Date, y = max.withdrawals.mgd)) +
 #6.
 
 
+scrape.it <- function(the_year, pwsid){
+
+   the_website <- read_html(paste0('https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=', 
+                                  pwsid, '&year=', the_year))  
+  
+water.system.name <- the_website %>% 
+  html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% 
+  html_text()
+  
+pwsid <- the_website %>% 
+  html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% 
+  html_text()
+  
+ownership <- the_website %>% 
+  html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% 
+  html_text()
+  
+max.withdrawals.mgd <- the_website %>% 
+  html_nodes("th~ td+ td") %>% 
+  html_text()
+  
+  Scraped.LWSP_df <- data.frame(
+    "water.system.name" = water.system.name,
+  "pwsid" = pwsid,
+  "ownership" = ownership,
+  "max.withdrawals.mgd" = as.numeric(max.withdrawals.mgd)
+) %>%
+   mutate(Month = c("Jan", "May", "Sep", "Feb", "June", "Oct", "Mar", "Jul", "Nov", "Apr", "Aug", "Dec"),
+         Year = rep(the_year),
+         Date = my(paste(Month,"-",Year)))
+  
+  return(Scraped.LWSP_df)
+}
+
 
 ```
 
@@ -136,6 +168,12 @@ ggplot(LWSP_df, aes(x = Date, y = max.withdrawals.mgd)) +
 ```{r fetch.and.plot.Durham.2015.data}
 #7
 
+Durham.2015.df <- scrape.it(2015, '03-32-010')
+
+ggplot(Durham.2015.df, aes(x = Date, y = max.withdrawals.mgd)) +
+  geom_line() +
+  xlab("2015") +
+  ylab("Maxiumum Daily Withdrawals (MGD)")
 
 ```
 
@@ -144,7 +182,14 @@ ggplot(LWSP_df, aes(x = Date, y = max.withdrawals.mgd)) +
 ```{r fetch.and.plot.Asheville.2015.data}
 #8
 
+Asheville.2015.df <- scrape.it(2015, '01-11-010')
 
+DUR.AVL.2015.df <- rbind(Asheville.2015.df, Durham.2015.df)
+
+ggplot(DUR.AVL.2015.df, aes(x = Date, y = max.withdrawals.mgd, color = water.system.name)) +
+  geom_line() +
+  xlab("2015") +
+  ylab("Maxiumum Daily Withdrawals (MGD)")
 ```
 
 
@@ -155,7 +200,19 @@ ggplot(LWSP_df, aes(x = Date, y = max.withdrawals.mgd)) +
 ```{r fetch.and.plot.Asheville.multiyear.data}
 #9
 
+the_years <- c(2010:2019)
+
+AVL_10.19_df <- map2(the_years, '01-11-010', scrape.it) %>%
+  bind_rows()
+
+ggplot(AVL_10.19_df, aes(x = Date, y = max.withdrawals.mgd)) + 
+  geom_line() +
+  geom_smooth() +
+  xlab("Asheville Water System (2010 - 2019)") +
+  ylab("Maximum Daily Whithdawal (MGD)")
 
 ```
 
 >Question: Just by looking at the plot (i.e. not running statistics), does Asheville have a trend in water usage over time?
+
+> It appears that, starting around 2017, Asheville has an upward trend in its daily maximum withdawals. 
