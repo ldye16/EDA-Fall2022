@@ -1,6 +1,6 @@
 ---
 title: "Assignment 09: Data Scraping"
-author: "Student Name"
+author: "Logan Dye"
 output: pdf_document
 geometry: margin=2.54cm
 editor_options: 
@@ -28,8 +28,15 @@ This exercise accompanies the lessons in Environmental Data Analytics on data sc
 
 ```{r, message = FALSE}
 #1
+getwd()
+library(tidyverse)
+library(rvest)
+library(lubridate)
 
-
+mytheme <- theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "red"), 
+        legend.position = "bottom")
+theme_set(mytheme)
 ```
 
 2. We will be scraping data from the NC DEQs Local Water Supply Planning website, specifically the Durham's 2021 Municipal Local Water Supply Plan (LWSP): 
@@ -42,6 +49,7 @@ Indicate this website as the as the URL to be scraped. (In other words, read the
 ```{r set.the.scraping.website}
 #2
 
+the_website <- read_html("https://www.ncwater.org/WUDC/app/LWSP/report.php?pwsid=03-32-010&year=2021")
 
 ```
 
@@ -61,13 +69,21 @@ In the code chunk below scrape these values, assigning them to four separate var
 
 ```{r scrape.the.data}
 #3
-water.system.name <- 
+water.system.name <- the_website %>% 
+  html_nodes("div+ table tr:nth-child(1) td:nth-child(2)") %>% 
+  html_text()
   
-pswid <- 
+pwsid <- the_website %>% 
+  html_nodes("td tr:nth-child(1) td:nth-child(5)") %>% 
+  html_text()
   
-ownership <- 
+ownership <- the_website %>% 
+  html_nodes("div+ table tr:nth-child(2) td:nth-child(4)") %>% 
+  html_text()
   
-max.withdrawals.mgd <- 
+max.withdrawals.mgd <- the_website %>% 
+  html_nodes("th~ td+ td") %>% 
+  html_text()
 
 ```
 
@@ -82,11 +98,26 @@ max.withdrawals.mgd <-
 
 ```{r create.a.dataframe.from.scraped.data}
 #4
+LWSP_df <- data.frame(
+    "water.system.name" = water.system.name,
+  "pwsid" = pwsid,
+  "ownership" = ownership,
+  "max.withdrawals.mgd" = as.numeric(max.withdrawals.mgd)
+)
+
+LWSP_df <- LWSP_df %>%
+  mutate(Month = c("Jan", "May", "Sep", "Feb", "June", "Oct", "Mar", "Jul", "Nov", "Apr", "Aug", "Dec"),
+         Year = rep(2021),
+         Date = my(paste(Month,"-",Year)))
 
 
 
 #5
 
+ggplot(LWSP_df, aes(x = Date, y = max.withdrawals.mgd)) + 
+  geom_line() +
+  xlab("2021") +
+  ylab("Maximum Withdrawals (MGD)")
 
 
 ```
